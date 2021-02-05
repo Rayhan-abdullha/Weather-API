@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Temperature Hot</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+            background: url(images/bg-image.jpg) no-repeat;
+            background-size: cover;
+            height: 100vh;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <form class="col-md-6 m-auto py-5">
+            <div class="input-group mb-3">
+                <input id="search-input" type="text" class="form-control"
+                    placeholder="Enter a location for Weather ...">
+                <div class="input-group-append">
+                    <button id="searchBtn" type="button" class="btn btn-danger">Search</button>
+                </div>
+            </div>
+        </form>
+        <div class="weather-status text-white text-center">
+            <img src="https://openweathermap.org/img/wn/02d@2x.png" alt="">
+            <h1 id="location">Dhaka</h1>
+            <h3><span id="temp">292</span>&deg;F</h3>
+            <h1 id="weather-type" class="lead">sunny</h1>
+        </div>
+    </div>
+
+    <!-- // javascript code is here -->
+
+    <script>
+     
+            document.getElementById("searchBtn").addEventListener("click", function () {
+                const inputValue = document.getElementById("search-input");
+                fetch('https://api.openweathermap.org/data/2.5/weather?q=' + inputValue.value +
+                        '&appid=366f961462cbc5e9ae06edd5af28f435')
+                    .then(res => res.json())
+                    .then(data => {
+                        const weatherInput = data.name
+                        document.getElementById("location").innerText = weatherInput;
+
+                        const temps = data.main.temp;
+                        // const temperature = (temps - 32) * (5 / 9)
+                        document.getElementById("temp").innerText = temps
+
+                        const weatherValue = data.weather[0];
+                        const weather = weatherValue.description;
+                        document.getElementById("weather-type").innerText = weather;
+                    })
+                    .then(error => console.log("location not valid"))
+            })
+
+    </script>
+</body>
+
+</html>
